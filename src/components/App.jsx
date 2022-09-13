@@ -5,38 +5,37 @@ import Filter from './Phonebook/Filter/Filter';
 
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  addContact,
-  delContact,
-} from '../redux/items/phone-book-items-actions';
+  fetchContacts,
+  deleteContacts,
+  addItems,
+} from 'redux/items/phone-book-operations';
 import { addFilter } from 'redux/filter/phoneBookFilter-actions';
-import { getContacts } from '../redux/items/phone-book-items-selector';
+import { getContactsList } from '../redux/items/phone-book-items-selector';
 import { getFilter } from '../redux/filter/phoneBookFilter-selector';
 
 function App() {
-  const ArrContacts = useSelector(getContacts);
+  const { loading } = useSelector(getContactsList);
   const filter = useSelector(getFilter);
-
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
   const phoneList = useSelector(store => {
-    const filteredContact = store.items.filter(item =>
+    const filteredContact = store.contacts.items.filter(item =>
       item.name.toLowerCase().includes(store.filter.toLocaleLowerCase())
     );
     return filteredContact;
   });
 
   const onAddContact = data => {
-    const { name, number } = data;
-    if (
-      ArrContacts.find(item => item.name === name || item.number === number)
-    ) {
-      return alert(`Такое имя ${name} или номер ${number} есть в контактах!`);
-    }
-    const action = addContact(data);
+    const action = addItems(data);
     dispatch(action);
   };
+
   const onDelContact = id => {
-    const action = delContact(id);
+    const action = deleteContacts(id);
     dispatch(action);
   };
 
@@ -45,15 +44,12 @@ function App() {
     dispatch(action);
   };
 
-  useEffect(() => {
-    localStorage.setItem('phoneList', JSON.stringify(phoneList));
-  }, [phoneList]);
-
   return (
     <>
       <FormAddPhonebook onSubmit={onAddContact} />
 
       <Filter value={filter} onChange={onChangeFilter} />
+      {loading && <p>...Loading</p>}
       <PhonebookList
         phoneList={phoneList}
         onDeletePhoneListItem={onDelContact}

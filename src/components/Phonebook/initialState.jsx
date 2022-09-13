@@ -1,7 +1,8 @@
 const initialState = {
-    name: '',
-    number: '',
-    filter: '',
+    contacts: {
+        items: [],
+        filter: ''
+}
 }
 
 export default initialState;
