@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 const PhonebookList = ({ phoneList, onDeletePhoneListItem }) => {
   return (
     <ul className={styles.list}>
-      {phoneList.map(({ id, name, number }) => (
+      {phoneList.map(({ id, name, phone }) => (
         <li key={id} className={styles.phonebookListItem}>
           <p className={styles.nameText} >{name}</p>
-          <p className={styles.phoneNumber} >{number}</p>
+          <p className={styles.phoneNumber} >{phone}</p>
           <button
             className={styles.buttonDelete}
             onClick={() => onDeletePhoneListItem(id)}
@@ -27,7 +27,7 @@ PhonebookList.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
+      phone: PropTypes.string.isRequired,
     })
   ),
   onDeletePhoneListItem: PropTypes.func,

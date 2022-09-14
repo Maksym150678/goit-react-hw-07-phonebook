@@ -8,10 +8,10 @@ import {
   fetchContacts,
   deleteContacts,
   addItems,
-} from 'redux/items/phone-book-operations';
-import { addFilter } from 'redux/filter/phoneBookFilter-actions';
-import { getContactsList } from '../redux/items/phone-book-items-selector';
-import { getFilter } from '../redux/filter/phoneBookFilter-selector';
+} from 'redux/items/itemsOperations';
+import { addFilter } from 'redux/filter/filterActions';
+import { getContactsList } from '../redux/items/itemsSelector';
+import { getFilter } from '../redux/filter/filterSelector';
 
 function App() {
   const { loading } = useSelector(getContactsList);
